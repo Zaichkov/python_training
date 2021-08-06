@@ -16,5 +16,9 @@ class Application:
         wd = self.wd
         wd.get("http://localhost/addressbook/index.php")
 
+    def select_first_item(self):
+        wd = self.wd
+        wd.find_element_by_name("selected[]").click()
+
     def destroy(self):
         self.wd.quit()
