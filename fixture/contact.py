@@ -44,18 +44,24 @@ class ContactHelper:
         self.app.change_field_value("notes", contact.notes)
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.app.open_home_page()
-        self.app.select_first_item()
+        self.app.select_item_by_index(index)
         wd.find_element_by_css_selector("input[value='Delete']").click()
         wd.switch_to_alert().accept()
         self.app.open_home_page()
         self.contact_cache = None
 
-    def edit_first_contact(self, contact):
+    def edit_first_contact(self):
+        self.edit_contact_by_index(0)
+
+    def edit_contact_by_index(self, index, contact):
         wd = self.app.wd
         self.app.open_home_page()
-        wd.find_element_by_css_selector("img[title='Edit']").click()
+        wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
         self.fill_contact_fields(contact)
         wd.find_element_by_name("update").click()
         self.app.open_home_page()

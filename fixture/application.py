@@ -27,7 +27,11 @@ class Application:
 
     def select_first_item(self):
         wd = self.wd
-        wd.find_element_by_name("selected[]").click()
+        wd.find_elements_by_name("selected[]").click()
+
+    def select_item_by_index(self, index):
+        wd = self.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def change_field_value(self, field_name, text):
         wd = self.wd
@@ -41,3 +45,9 @@ class Application:
 
     def destroy(self):
         self.wd.quit()
+
+    def id_or_max(self):
+        if self.id:
+            return int(self.id)
+        else:
+            return maxsize
