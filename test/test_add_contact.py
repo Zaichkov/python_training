@@ -9,7 +9,7 @@ import re
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits + " "*10
     return prefix + "".join([random.choice(symbols) for _ in range(random.randrange(maxlen))])
 
 
@@ -37,6 +37,9 @@ def random_year():
 test_data = [
     Contact(firstname=random_string("firstname", 10), lastname=random_string("lastname", 10),
             address=random_string("address", 30), email=random_email(), mobile_phone=random_phone(15),
+            bday=random_day(), bmonth=random_month(), byear=random_year()),
+    Contact(firstname=random_string("firstname", 15), lastname=random_string("lastname", 15),
+            address=random_string("address", 40), email=random_email(), mobile_phone=random_phone(20),
             bday=random_day(), bmonth=random_month(), byear=random_year())
 ]
 

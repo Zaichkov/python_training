@@ -6,12 +6,13 @@ import re
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + string.punctuation + " "*10
+    symbols = string.ascii_letters + string.digits + " "*10
     return prefix + "".join([random.choice(symbols) for _ in range(random.randrange(maxlen))])
 
 
 test_data = [
-    Group(name=random_string("name", 15), header=random_string("header", 15), footer=random_string("footer", 15))
+    Group(name=random_string("name", 15), header=random_string("header", 15), footer=random_string("footer", 15)),
+    Group(name=random_string("name", 20), header=random_string("header", 20), footer=random_string("footer", 20))
 ]
 
 
