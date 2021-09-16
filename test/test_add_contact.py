@@ -9,7 +9,7 @@ import re
 
 
 def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + " "*10
+    symbols = string.ascii_letters + string.digits + " "*3
     return prefix + "".join([random.choice(symbols) for _ in range(random.randrange(maxlen))])
 
 
