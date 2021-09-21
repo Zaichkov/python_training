@@ -43,6 +43,10 @@ class Application:
         wd = self.wd
         wd.find_elements_by_name("selected[]")[index].click()
 
+    def select_item_by_id(self, id):
+        wd = self.wd
+        wd.find_element_by_css_selector(f"input[value='{id}']").click()
+
     def change_field_value(self, field_name, text):
         wd = self.wd
         if text is not None:
