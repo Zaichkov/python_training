@@ -63,3 +63,4 @@ class Application:
 
     def field_like_on_home_page(self, field):
         return re.sub(r'\s+', ' ', field).strip()
+        # return re.sub(r'[\t\f]', ' ', field).strip()

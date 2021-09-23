@@ -104,7 +104,24 @@ class ContactHelper:
 
     def make_list_like_ui(self, contact_list):
         return list(map(lambda c: Contact(id=c.id, firstname=self.app.field_like_on_home_page(c.firstname),
-                                          lastname=self.app.field_like_on_home_page(c.lastname)), contact_list))
+                                          lastname=self.app.field_like_on_home_page(c.lastname),
+                                          address=self.app.field_like_on_home_page(c.address),
+                                          all_emails_from_home_page=self.merge_emails_like_on_home_page(c),
+                                          all_phones_from_home_page=self.merge_phones_like_on_home_page(c)),
+                        contact_list))
+
+    def merge_emails_like_on_home_page(self, contact):
+        return "\n".join(map(self.app.field_like_on_home_page,
+                             filter(lambda x: x is not None and x != "", [contact.email, contact.email2, contact.email3])))
+
+    def merge_phones_like_on_home_page(self, contact):
+        def clear(s):
+            return re.sub("[() -]", "", s)
+        return "\n".join(filter(lambda x: x != "",
+                                map(clear,
+                                    filter(lambda x: x is not None,
+                                           [contact.home_phone, contact.mobile_phone, contact.work_phone,
+                                            contact.phone2]))))
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd

@@ -1,33 +1,9 @@
-from random import randrange
-import re
+from model.contact import Contact
 
 
-def test_data_on_home_page(app):
-    index = randrange(app.contact.count())
-    contact_from_home_page = app.contact.get_contact_list()[index]
-    contact_from_edit_page = app.contact.get_contact_info_from_edit_page(index)
-    assert contact_from_home_page.lastname == field_like_on_home_page(contact_from_edit_page.lastname)
-    assert contact_from_home_page.firstname == contact_from_edit_page.firstname
-    assert contact_from_home_page.address == contact_from_edit_page.address
-    assert contact_from_home_page.all_emails_from_home_page == merge_emails_like_on_home_page(contact_from_edit_page)
-    assert contact_from_home_page.all_phones_from_home_page == merge_phones_like_on_home_page(contact_from_edit_page)
+def test_data_on_home_page(app, orm):
+    contacts_from_db = orm.get_contact_list()
+    contacts_from_home_page = app.contact.get_contact_list()
 
-
-def merge_emails_like_on_home_page(contact):
-    return "\n".join(filter(lambda x: x is not None and x != "", [contact.email, contact.email2, contact.email3]))
-
-
-def clear(s):
-    return re.sub("[() -]", "", s)
-
-
-def merge_phones_like_on_home_page(contact):
-    return "\n".join(filter(lambda x: x != "",
-                            map(clear,
-                                filter(lambda x: x is not None,
-                                           [contact.home_phone, contact.mobile_phone, contact.work_phone,
-                                            contact.phone2]))))
-
-
-def field_like_on_home_page(field):
-    return re.sub(r'\s+', ' ', field).strip()
+    assert sorted(app.contact.make_list_like_ui(contacts_from_db), key=Contact.id_or_max) ==\
+           sorted(contacts_from_home_page, key=Contact.id_or_max)
