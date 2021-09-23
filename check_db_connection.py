@@ -1,12 +1,16 @@
 import pymysql.cursors
+from fixture.orm import ORMFixture
+from model.group import Group
 
 
-connection = pymysql.connect(host="127.0.0.1", database="addressbook", user="root", password="")
+db = ORMFixture(host="127.0.0.1", database="addressbook", user="root", password="")
 
 try:
-    cursor = connection.cursor()
-    cursor.execute("select group_name from group_list")
-    for row in cursor.fetchall():
-        print(row)
+    l = db.get_contacts_not_in_group(Group(id='220'))
+    print(len(l))
+    for item in l:
+        print(item)
+
+
 finally:
-    connection.close()
+    pass  # db.destroy()

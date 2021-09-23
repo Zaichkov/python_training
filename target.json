@@ -9,5 +9,11 @@
     "database": "addressbook",
     "user": "root",
     "password": ""
+  },
+  "orm": {
+    "host": "localhost",
+    "database": "addressbook",
+    "user": "root",
+    "password": ""
   }
 }

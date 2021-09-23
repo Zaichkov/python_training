@@ -3,6 +3,7 @@ from fixture.session import SessionHelper
 from fixture.group import GroupHelper
 from fixture.contact import ContactHelper
 from selenium.webdriver.support.ui import Select
+import re
 
 
 class Application:
@@ -59,3 +60,6 @@ class Application:
 
     def destroy(self):
         self.wd.quit()
+
+    def field_like_on_home_page(self, field):
+        return re.sub(r'\s+', ' ', field).strip()

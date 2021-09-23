@@ -47,10 +47,10 @@ class ContactHelper:
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
-    def delete_contact_by_index(self, index):
+    def delete_contact_by_id(self, id):
         wd = self.app.wd
         self.app.open_home_page()
-        self.app.select_item_by_index(index)
+        self.app.select_item_by_id(id)
         wd.find_element_by_css_selector("input[value='Delete']").click()
         wd.switch_to_alert().accept()
         self.app.open_home_page()
@@ -59,18 +59,18 @@ class ContactHelper:
     def edit_first_contact(self, contact):
         self.edit_contact_by_index(0, contact)
 
-    def edit_contact_by_index(self, index, contact):
+    def edit_contact_by_id(self, id, contact):
         wd = self.app.wd
-        self.open_contact_to_edit_by_index(index)
+        self.open_contact_to_edit_by_id(id)
         self.fill_contact_fields(contact)
         wd.find_element_by_name("update").click()
         self.app.open_home_page()
         self.contact_cache = None
 
-    def open_contact_to_edit_by_index(self, index):
+    def open_contact_to_edit_by_id(self, id):
         wd = self.app.wd
         self.app.open_home_page()
-        wd.find_elements_by_css_selector("img[title='Edit']")[index].click()
+        wd.find_element_by_css_selector(f"a[href='edit.php?id={id}']").click()
 
     def open_contact_details_by_index(self, index):
         wd = self.app.wd
@@ -101,6 +101,10 @@ class ContactHelper:
                                                   address=address, all_emails_from_home_page=all_emails,
                                                   all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
+
+    def make_list_like_ui(self, contact_list):
+        return list(map(lambda c: Contact(id=c.id, firstname=self.app.field_like_on_home_page(c.firstname),
+                                          lastname=self.app.field_like_on_home_page(c.lastname)), contact_list))
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd

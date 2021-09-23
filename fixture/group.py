@@ -50,10 +50,10 @@ class GroupHelper:
     def edit_first_group(self):
         self.edit_group_by_index(0)
 
-    def edit_group_by_index(self, index, group):
+    def edit_group_by_id(self, id, group):
         wd = self.app.wd
         self.open_group_page()
-        self.app.select_item_by_index(index)
+        self.app.select_item_by_id(id)
         wd.find_element_by_name("edit").click()
         self.fill_group_fields(group)
         wd.find_element_by_name("update").click()
@@ -77,3 +77,6 @@ class GroupHelper:
                 id = element.find_element_by_name("selected[]").get_attribute("value")
                 self.group_cache.append(Group(name=text, id=id))
         return list(self.group_cache)
+
+    def make_list_like_ui(self, group_list):
+        return list(map(lambda g: Group(id=g.id, name=self.app.field_like_on_home_page(g.name)), group_list))
