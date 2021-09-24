@@ -163,3 +163,19 @@ class ContactHelper:
             phone2 = ""
 
         return Contact(home_phone=home_phone, mobile_phone=mobile_phone, work_phone=work_phone, phone2=phone2)
+
+    def add_contact_to_group(self, contact, group):
+        self.app.open_home_page()
+        wd = self.app.wd
+        self.app.select_item_by_id(contact.id)
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text(group.name)
+        wd.find_element_by_name("add").click()
+        self.app.open_home_page()
+
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        self.app.open_home_page()
+        Select(wd.find_element_by_name("group")).select_by_visible_text(group.name)
+        self.app.select_item_by_id(contact.id)
+        wd.find_element_by_name("remove").click()
+        self.app.open_home_page()
